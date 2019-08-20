@@ -5,6 +5,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
 
+import javax.validation.ConstraintViolationException;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,5 +52,12 @@ public class LogServiceTest extends AbstractRestTest {
 		assertEquals(cepRequest.getCep(), logRetorno.getRequest());
 		assertEquals(cepResponse.toString(), logRetorno.getResponse());
 		assertEquals(LocalDate.of(2019, 07, 16), logRetorno.getDtIncl());
+	}
+
+	@Test(expected = ConstraintViolationException.class)
+	@Rollback
+	public void adicionarLogValoresNullTest() {
+
+		logService.adicionaLog(new CepRequest(), new CepResponse());
 	}
 }
