@@ -9,40 +9,31 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.Rollback;
 
 import com.bureaucep.AbstractRestTest;
-import com.bureaucep.request.CepRequest;
-import com.bureaucep.response.CepResponse;
+import com.bureaucep.request.EnderecoRequest;
+import com.bureaucep.response.EnderecoResponse;
 
 import javassist.NotFoundException;
 
-public class CepServiceTest extends AbstractRestTest {
+public class EnderecoServiceTest extends AbstractRestTest {
 
 	private static final String CEP = "29148351";
 
 	@Autowired
-	private CepService cepService;
+	private EnderecoService enderecoService;
 
 	@MockBean
 	private LogService logService;
 
-	private CepRequest cepRequest = CepRequest.builder().cep(CEP).build();
+	private EnderecoRequest request = EnderecoRequest.builder().cep(CEP).build();
 
 	@Test
 	@Rollback
 	public void obterCepTest() throws NotFoundException {
 
-		cepService.insere(cepRequest);
-
-		CepResponse retorno = cepService.obtemCep(cepRequest);
+		EnderecoResponse retorno = enderecoService.obtemCep(request);
 
 		assertThat(retorno).isNotNull();
 
-		Mockito.verify(logService).adicionaLog(cepRequest, retorno);
-	}
-
-	@Test(expected = NotFoundException.class)
-	@Rollback
-	public void obterCepInexistenetTest() throws NotFoundException {
-
-		cepService.obtemCep(cepRequest);
+		Mockito.verify(logService).adicionaLog(request, retorno);
 	}
 }

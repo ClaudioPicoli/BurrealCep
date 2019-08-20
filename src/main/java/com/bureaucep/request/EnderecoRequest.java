@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CepRequest {
+public class EnderecoRequest {
 
 	@JsonProperty("CEP")
 	private String cep;

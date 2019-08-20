@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.bureaucep.controller.ContactController;
-import com.bureaucep.response.CepResponse;
+import com.bureaucep.response.EnderecoResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,11 +15,10 @@ import lombok.extern.slf4j.Slf4j;
 public class CepExceptionHandler {
 
 	@ExceptionHandler(Exception.class)
-	public ResponseEntity<CepResponse> defaultExceptionHandle(Exception ex) {
+	public ResponseEntity<EnderecoResponse> defaultExceptionHandle(Exception ex) {
 
 		log.error(ex.getMessage());
 
-		// Forma de retorno do erro deveria ser confirmada
-		return new ResponseEntity<>(new CepResponse(), HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<>(new EnderecoResponse(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }

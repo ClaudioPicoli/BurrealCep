@@ -1,7 +1,7 @@
 package com.bureaucep.entify;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -44,5 +44,5 @@ public class Log implements Serializable {
 
 	@Column(name = "L_DATA_INICIAL")
 	@NotNull
-	private LocalDate dtIncl;
+	private LocalDateTime dtIncl;
 }

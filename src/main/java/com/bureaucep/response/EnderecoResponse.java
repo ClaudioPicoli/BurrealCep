@@ -1,7 +1,5 @@
 package com.bureaucep.response;
 
-import java.time.LocalDate;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
@@ -15,7 +13,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class CepResponse {
+public class EnderecoResponse {
 
 	@JsonProperty("CEP")
 	private String cep;
@@ -45,6 +43,22 @@ public class CepResponse {
 	private String gia;
 
 	@JsonProperty("DATA_INICIAL")
-	private LocalDate dataIncl;
+	private String dataIncl;
+	
+    @Override
+    public String toString() {
+        return "Endereco{" +
+                "cep='" + cep + '\'' +
+                ", logradouro='" + logradouro + '\'' +
+                ", complemento='" + complemento + '\'' +
+                ", bairro='" + bairro + '\'' +
+                ", localidade='" + localidade + '\'' +
+                ", uf='" + uf + '\'' +
+                ", unidade='" + unidade + '\'' +
+                ", ibge='" + ibge + '\'' +
+                ", gia='" + gia + '\'' +
+                ", dataIncl='" + dataIncl + '\'' +
+                '}';
+    }
 
 }

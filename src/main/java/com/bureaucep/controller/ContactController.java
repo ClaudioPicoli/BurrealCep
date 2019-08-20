@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bureaucep.request.CepRequest;
-import com.bureaucep.response.CepResponse;
-import com.bureaucep.service.CepService;
+import com.bureaucep.request.EnderecoRequest;
+import com.bureaucep.response.EnderecoResponse;
+import com.bureaucep.service.EnderecoService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,21 +22,13 @@ import javassist.NotFoundException;
 public class ContactController {
 
 	@Autowired
-	private CepService cepService;
+	private EnderecoService enderecoService;
 
 	@PostMapping(path = "/obterCep")
 	@ApiOperation(value = "Obtenção Cep", notes = "Salva log de requisição")
-	public ResponseEntity<CepResponse> obtemCep(final @RequestBody CepRequest cepRequest) throws NotFoundException {
+	public ResponseEntity<EnderecoResponse> obtemCep(final @RequestBody EnderecoRequest request)
+			throws NotFoundException {
 
-		return new ResponseEntity<>(cepService.obtemCep(cepRequest), HttpStatus.OK);
+		return new ResponseEntity<>(enderecoService.obtemCep(request), HttpStatus.OK);
 	}
-
-	// Metodo criado apenas para facilitar teste do sistema.
-	@PostMapping(path = "/inserirCep")
-	@ApiOperation(value = "Insere cep para teste")
-	public ResponseEntity<CepResponse> insereTeste(final @RequestBody CepRequest cepRequest) {
-
-		return new ResponseEntity<>(cepService.insere(cepRequest), HttpStatus.OK);
-	}
-
 }

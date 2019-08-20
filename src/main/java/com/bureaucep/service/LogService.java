@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 import com.bureaucep.builder.LogBuilder;
 import com.bureaucep.entify.Log;
 import com.bureaucep.repository.LogRepository;
-import com.bureaucep.request.CepRequest;
-import com.bureaucep.response.CepResponse;
+import com.bureaucep.request.EnderecoRequest;
+import com.bureaucep.response.EnderecoResponse;
 
 @Service
 public class LogService {
@@ -15,8 +15,8 @@ public class LogService {
 	@Autowired
 	private LogRepository logRepository;
 
-	public Log adicionaLog(CepRequest request, CepResponse response) {
+	public Log adicionaLog(EnderecoRequest request, EnderecoResponse response) {
 
-		return logRepository.save(LogBuilder.buildLog(request.getCep(), response.toString()));
+		return logRepository.save(LogBuilder.build(request.getCep(), response.toString()));
 	}
 }
