@@ -16,6 +16,11 @@
 	<version>0.0.1</version>
 	<name>bureauCepTest</name>
 	<description>Obtenção de CEP.</description>
+	
+	<properties>
+		<java.version>1.8</java.version>
+		<spring-cloud.version>Greenwich.SR1</spring-cloud.version>
+	</properties>
 
 	<dependencies>
 
