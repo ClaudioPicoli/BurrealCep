@@ -1,6 +1,6 @@
 spring:
   application:
-    name: bureauCepTest
+    name: bureauCep
   h2:
     console:
       enabled: true
@@ -10,4 +10,10 @@ spring:
     username: cpc
     password: q1w2e3r4
     driver-class-name: org.h2.Driver
+    
+server:
+  servlet:
+    context-path: /bureauCep
+    
+#http://localhost:8080/bureauCep/swagger-ui.html
     

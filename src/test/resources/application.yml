@@ -1,6 +1,6 @@
 spring:
   application:
-    name: bureauCepTest
+    name: bureauCep
     
   datasource:
     platform: h2
@@ -10,5 +10,6 @@ spring:
     
 server:
   servlet:
-    context-path: /bureauCepTest
+    context-path: /bureauCep
     
+#http://localhost:8080/bureauCep/swagger-ui.html
