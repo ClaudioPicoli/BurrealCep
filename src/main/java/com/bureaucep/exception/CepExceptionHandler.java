@@ -19,6 +19,7 @@ public class CepExceptionHandler {
 
 		log.error(ex.getMessage());
 
-		return new ResponseEntity<>(new CepResponse(), HttpStatus.NOT_FOUND);
+		// Forma de retorno do erro deveria ser confirmada
+		return new ResponseEntity<>(new CepResponse(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }

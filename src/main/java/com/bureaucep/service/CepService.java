@@ -38,15 +38,15 @@ public class CepService {
 
 		return cepResponse;
 	}
-	
-	//Metodo de teste, retirar no futuro.
-	public CepResponse insere(CepRequest cepRequest)  {
+
+	// Metodo criado apenas para facilitar teste do sistema.
+	public CepResponse insere(CepRequest cepRequest) {
 
 		Cep cep = new Cep();
 		cep.setCep(cepRequest.getCep());
-		
+
 		cep = cepRepository.save(cep);
-		
+
 		return CepResponseBuilder.buildCepResponse(cep);
 	}
 }
