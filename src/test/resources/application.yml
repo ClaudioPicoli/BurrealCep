@@ -1,15 +1,21 @@
 spring:
   application:
     name: bureauCep
-    
+
   datasource:
     platform: h2
     url: jdbc:h2:mem:testdb;INIT=CREATE SCHEMA IF NOT EXISTS SA;DB_CLOSE_ON_EXIT=FALSE;MODE=ORACLE
     username: sa
-    password: 
-    
+    password:
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      timeout: 5s
+
 server:
   servlet:
     context-path: /bureauCep
-    
+
 #http://localhost:8080/bureauCep/swagger-ui.html

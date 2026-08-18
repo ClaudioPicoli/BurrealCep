@@ -10,10 +10,17 @@ spring:
     username: cpc
     password: q1w2e3r4
     driver-class-name: org.h2.Driver
-    
+    hikari:
+      minimum-idle: 1
+      maximum-pool-size: 5
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      timeout: 5s
+
 server:
   servlet:
     context-path: /bureauCep
-    
+
 #http://localhost:8080/bureauCep/swagger-ui.html
-    

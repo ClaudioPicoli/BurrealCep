@@ -3,38 +3,23 @@ package com.bureaucep.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
 
 @Configuration
-@EnableSwagger2
 public class SwaggerConfig {
-	
-	@Bean
-    public Docket api() { 
-        return new Docket(DocumentationType.SWAGGER_2)  
-          .select()                                  
-          .apis( RequestHandlerSelectors.basePackage( "com.bureaucep.controller" ) )             
-          .paths( PathSelectors.regex( "/contact.*" ) ).build()
-          .apiInfo(apiInfo());                                           
-    }
-	
-	private ApiInfo apiInfo() {
-		
-		return new ApiInfoBuilder()
-						.contact(new Contact("ClaudioPicoli", "https://github.com", ""))
-						.description("Obtenção de Cep")
-						.title("Cep Service")
-						.version("1.0.0")
-						.build();
-					
-		
-	}
 
+    @Bean
+    public OpenAPI api() {
+       return new OpenAPI()
+               .info(new Info()
+                       .title("Cep Service")
+                       .description("Obtenção de CEP com logs e integrações externas")
+                       .version("1.0.0")
+                       .contact(new Contact()
+                               .name("ClaudioPicoli")
+                               .url("https://github.com")
+                               .email("")));
+    }
 }

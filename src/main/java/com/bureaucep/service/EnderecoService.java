@@ -1,6 +1,11 @@
 package com.bureaucep.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.Semaphore;
+
 import org.springframework.stereotype.Service;
 
 import com.bureaucep.builder.EnderecoResponseBuilder;
@@ -9,24 +14,51 @@ import com.bureaucep.entify.Endereco;
 import com.bureaucep.request.EnderecoRequest;
 import com.bureaucep.response.EnderecoResponse;
 
-import javassist.NotFoundException;
+import feign.FeignException;
 
 @Service
 public class EnderecoService {
 
-	@Autowired
-	private ViaCepClient viaCepClient;
+    private static final int MAX_CONCURRENT_CALLS = 10;
 
-	@Autowired
-	LogService logService;
+    private final ViaCepClient viaCepClient;
+    private final LogService logService;
+    private final ExecutorService virtualExecutor = Executors.newThreadPerTaskExecutor(Thread.ofVirtual().factory());
+    private final Semaphore semaphore = new Semaphore(MAX_CONCURRENT_CALLS);
 
-	public EnderecoResponse obtemCep(EnderecoRequest cepRequest) throws NotFoundException {
+    public EnderecoService(ViaCepClient viaCepClient, LogService logService) {
+        this.viaCepClient = viaCepClient;
+        this.logService = logService;
+    }
 
-		Endereco endereco = viaCepClient.buscaEnderecoPorCep(cepRequest.getCep());
-		EnderecoResponse response = EnderecoResponseBuilder.buildResponse(endereco);
-
-		logService.adicionaLog(cepRequest, response);
-
-		return response;
-	}
+    public EnderecoResponse obtemCep(EnderecoRequest cepRequest) {
+        try {
+            semaphore.acquire();
+            Future<EnderecoResponse> future = virtualExecutor.submit(() -> {
+                try {
+                    Endereco endereco = viaCepClient.buscaEnderecoPorCep(cepRequest.getCep());
+                    EnderecoResponse response = EnderecoResponseBuilder.buildResponse(endereco);
+                    logService.adicionaLog(cepRequest, response);
+                    return response;
+                } catch (FeignException e) {
+                    if (e.status() == 404) {
+                        throw new IllegalArgumentException("CEP não encontrado: " + cepRequest.getCep(), e);
+                    }
+                    throw e;
+                }
+            });
+            return future.get();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IllegalStateException("Execução interrompida ao consultar o CEP.", e);
+        } catch (ExecutionException e) {
+            Throwable cause = e.getCause();
+            if (cause instanceof RuntimeException runtimeException) {
+                throw runtimeException;
+            }
+            throw new IllegalStateException("Erro ao consultar o CEP.", cause);
+        } finally {
+            semaphore.release();
+        }
+    }
 }
